@@ -67,7 +67,7 @@ def create_booking(
     qr_folder = os.path.join(os.getcwd(), "app", "qrs")
     os.makedirs(qr_folder, exist_ok=True)
 
-    domain = os.getenv("FRONTEND_URL", "http://localhost:3000")
+    domain = "https://smart-qr-backend-production.up.railway.app"
     qr_url = f"{domain}/{db_booking.id}"
     qr_img = qrcode.make(qr_url)
 
@@ -101,3 +101,4 @@ def get_booking(booking_id: int, db: Session = Depends(get_db), user=Depends(get
 @router.get("/", response_model=list[schemas.BookingOut])
 def get_user_bookings(db: Session = Depends(get_db), user=Depends(get_current_user)):
     return db.query(models.Booking).filter(models.Booking.user_id == user.id).all()
+
