@@ -30,6 +30,19 @@ class BookingCreate(BaseModel):
     source: str
     destination: str
 
+class BookingResponse(BaseModel):
+    id: int
+    source: str
+    destination: str
+    fare: float
+    status: str | None = "Active"
+    qr_link: str | None = None
+    bus_id: int
+    bus_number: str | None = None
+
+    class Config:
+        orm_mode = True
+
 class BookingOut(BaseModel):
     id: int
     bus_id: int
@@ -40,4 +53,5 @@ class BookingOut(BaseModel):
     
     class Config:
         orm_mode = True
+
 
