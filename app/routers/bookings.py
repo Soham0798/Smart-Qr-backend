@@ -67,15 +67,20 @@ def create_booking(
     qr_folder = os.path.join(os.getcwd(), "app", "qrs")
     os.makedirs(qr_folder, exist_ok=True)
 
-    domain = "https://smart-qr-frontend-i8cu-8e0rxo357-soham0798s-projects.vercel.app"
-    qr_url = f"{domain}/ticket/{db_booking.id}"
-    qr_img = qrcode.make(qr_url)
-
+    frontend_domain = "https://smart-qr-frontend-i8cu-8e0rxo357-soham0798s-projects.vercel.app"
+    qr_redirect_url = f"{frontend_domain}/tickets/{db_booking.id}"
+    
+    # Generate QR image
+    qr_img = qrcode.make(qr_redirect_url)
+    
     qr_filename = f"ticket_{db_booking.id}.png"
     qr_path = os.path.join(qr_folder, qr_filename)
     qr_img.save(qr_path)
-    # 5️⃣ Create a proper qr_link and update the booking record
-    qr_link = f"{domain}/qrs/{qr_filename}"
+    
+    # This is the PNG image served from backend
+    backend_domain = "https://smart-qr-backend-production.up.railway.app"
+    qr_link = f"{backend_domain}/qrs/{qr_filename}"
+    
     db_booking.qr_link = qr_link
     db.commit()
     db.refresh(db_booking)
@@ -108,6 +113,7 @@ def get_public_booking(booking_id: int, db: Session = Depends(get_db)):
 @router.get("/", response_model=list[schemas.BookingOut])
 def get_user_bookings(db: Session = Depends(get_db), user=Depends(get_current_user)):
     return db.query(models.Booking).filter(models.Booking.user_id == user.id).all()
+
 
 
 
