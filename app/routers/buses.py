@@ -42,6 +42,10 @@ def get_all_buses(db: Session = Depends(get_db), user=Depends(get_current_user))
         raise HTTPException(status_code=404, detail="No buses found")
     return buses
 
+@router.get("/all", response_model=list[schemas.BusOut])
+def get_all_buses(db: Session = Depends(get_db)):
+    return db.query(models.Bus).all()
+
 
 @router.post("/", response_model=schemas.BusOut)
 def create_bus(bus: schemas.BusCreate, db: Session = Depends(get_db), user=Depends(get_current_user)):
@@ -60,4 +64,5 @@ def get_bus_by_id(bus_id: int, db: Session = Depends(get_db)):
     if not bus:
         raise HTTPException(status_code=404, detail="Bus not found")
     return bus
+
 
