@@ -31,3 +31,5 @@ class Bus(Base):
     route = Column(String)
     latitude = Column(Float)   # 🆕 Current latitude
     longitude = Column(Float)  # 🆕 Current longitude
+     capacity = Column(Integer, default=40)
+    booked_seats = Column(Integer, default=0) 
