@@ -21,6 +21,8 @@ class BusOut(BaseModel):
     id: int
     bus_number: str
     route: str
+    capacity: int
+    booked_seats: int
     class Config:
         orm_mode = True
 
@@ -53,5 +55,6 @@ class BookingOut(BaseModel):
     
     class Config:
         orm_mode = True
+
 
 
