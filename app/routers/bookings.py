@@ -62,6 +62,9 @@ def create_booking(
 
     # 3️⃣ Create booking FIRST (no QR yet)
     db_booking = crud.create_booking(db, booking, user.id, fare)
+    if bus:
+    bus.booked_seats += 1
+    db.commit()
 
     # 4️⃣ Generate QR with the REAL booking ID
     qr_folder = os.path.join(os.getcwd(), "app", "qrs")
@@ -113,6 +116,7 @@ def get_public_booking(booking_id: int, db: Session = Depends(get_db)):
 @router.get("/", response_model=list[schemas.BookingOut])
 def get_user_bookings(db: Session = Depends(get_db), user=Depends(get_current_user)):
     return db.query(models.Booking).filter(models.Booking.user_id == user.id).all()
+
 
 
 
