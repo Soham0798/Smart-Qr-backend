@@ -60,7 +60,7 @@ def create_booking(
 
 
 
-def get_nearby_buses(db, lat: float, lon: float, radius_km: float = 5.0):
+def get_nearby_buses(db, lat: float, lon: float, radius_km: float = 6.0):
     """Return buses within a given radius (in km) from a given lat/lon"""
     def haversine(lat1, lon1, lat2, lon2):
         R = 6371  # Earth radius in km
@@ -87,3 +87,4 @@ def get_nearby_buses(db, lat: float, lon: float, radius_km: float = 5.0):
                     "longitude": bus_lon,
                 })
     return nearby
+
