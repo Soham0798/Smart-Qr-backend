@@ -99,8 +99,8 @@ def create_booking(
     }
 
 @router.get("/{booking_id}", response_model=schemas.BookingOut)
-def get_booking(booking_id: int, db: Session = Depends(get_db), user=Depends(get_current_user)):
-    booking = db.query(models.Booking).filter(models.Booking.id == booking_id, models.Booking.user_id == user.id).first()
+def get_booking(booking_id: int, db: Session = Depends(get_db)):
+    booking = db.query(models.Booking).filter(models.Booking.id == booking_id).first()
     if not booking:
         raise HTTPException(status_code=404, detail="Booking not found")
     return booking
@@ -116,6 +116,7 @@ def get_public_booking(booking_id: int, db: Session = Depends(get_db)):
 @router.get("/", response_model=list[schemas.BookingOut])
 def get_user_bookings(db: Session = Depends(get_db), user=Depends(get_current_user)):
     return db.query(models.Booking).filter(models.Booking.user_id == user.id).all()
+
 
 
 
