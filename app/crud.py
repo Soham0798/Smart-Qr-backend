@@ -74,8 +74,16 @@ def get_nearby_buses(db, lat: float, lon: float, radius_km: float = 5.0):
     all_buses = get_all_buses(db)
     nearby = []
     for bus in all_buses:
-        if bus.latitude is not None and bus.longitude is not None:
-            distance = haversine(lat, lon, bus.latitude, bus.longitude)
-            if distance <= radius_km:
-                nearby.append(bus)
+        # match these to your actual DB column names
+        bus_lat = bus.latitude
+        bus_lon = bus.longitude
+
+        if bus_lat is not None and bus_lon is not None:
+            if haversine(lat, lon, bus_lat, bus_lon) <= radius_km:
+                nearby.append({
+                    "id": bus.id,
+                    "bus_number": bus.bus_number,
+                    "latitude": bus_lat,
+                    "longitude": bus_lon,
+                })
     return nearby
