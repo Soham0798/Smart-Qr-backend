@@ -70,7 +70,7 @@ def create_booking(
     qr_folder = os.path.join(os.getcwd(), "app", "qrs")
     os.makedirs(qr_folder, exist_ok=True)
 
-    frontend_domain = "https://smart-qr-frontend-i8cu-8e0rxo357-soham0798s-projects.vercel.app"
+    frontend_domain = "https://smart-qr-frontend-i8cu.vercel.app"
     qr_redirect_url = f"{frontend_domain}/tickets/{db_booking.id}"
     
     # Generate QR image
@@ -116,6 +116,7 @@ def get_public_booking(booking_id: int, db: Session = Depends(get_db)):
 @router.get("/", response_model=list[schemas.BookingOut])
 def get_user_bookings(db: Session = Depends(get_db), user=Depends(get_current_user)):
     return db.query(models.Booking).filter(models.Booking.user_id == user.id).all()
+
 
 
 
