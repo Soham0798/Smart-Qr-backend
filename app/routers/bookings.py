@@ -81,7 +81,7 @@ def create_booking(
     qr_img.save(qr_path)
     
     # This is the PNG image served from backend
-    backend_domain = "https://smart-qr-backend-production.up.railway.app"
+    backend_domain = "https://smart-qr-backend-zo5i.onrender.com/"
     qr_link = f"{backend_domain}/qrs/{qr_filename}"
     
     db_booking.qr_link = qr_link
@@ -116,6 +116,7 @@ def get_public_booking(booking_id: int, db: Session = Depends(get_db)):
 @router.get("/", response_model=list[schemas.BookingOut])
 def get_user_bookings(db: Session = Depends(get_db), user=Depends(get_current_user)):
     return db.query(models.Booking).filter(models.Booking.user_id == user.id).all()
+
 
 
 
